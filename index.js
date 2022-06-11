@@ -118,15 +118,16 @@ app.get('/departments/:id', async (req, resp) => {
     }
 })
 
-app.put('/update/employee', async (req, resp) => {
+app.put('/update/employee/:id', async (req, resp) => {
     try {
         let empName = req.body.emp_name;
         let empContact = req.body.emp_contact;
+        let empId = parseInt(req.params.id)
         if (!empName && !empContact) {
             throw 'Invalid request parameters.'
         }
         if (empName) {
-            const data = await db.updateEmployeeName(empName)
+            const data = await db.updateEmployeeName(empName, empId)
             if (data.error) {
                 throw data.message
             }
@@ -137,7 +138,7 @@ app.put('/update/employee', async (req, resp) => {
             })
         }
         if (empContact) {
-            const data = await db.updateEmployeeContact(empContact)
+            const data = await db.updateEmployeeContact(empContact, empId)
             if (data.error) {
                 throw data.message
             }
