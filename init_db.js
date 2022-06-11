@@ -147,6 +147,7 @@ async function init_db() {
     await employeeDataFunction()
     await employeeJoinDateFunction()
     await employeeJoinDateTrigger()
+    pool.end()
     console.log('Done!')
 }
 
