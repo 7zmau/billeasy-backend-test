@@ -9,7 +9,7 @@ async function dropAll() {
         await pool.query('DROP TABLE IF EXISTS departments');
         console.log("Cleared the database.")
     } catch (err) {
-        console.log(error)
+        console.log(err)
     }
 }
 
