@@ -5,11 +5,12 @@ Test API to create and get employees & departments in a company
 Create **.env** file in your local Repository and set **DATABASE_URL** to your Postgresql database URI
 ### Initialize the database 
 `$ npm run initdb`<br>
+
 This will clear existing tables.
 ### Run
 `$ node index.js`<br>
 
-Open browser at http://localhost:{PORT}/
+Open browser at http://localhost:{PORT}/<br>
 Configure PORT in `index.js`
 
 #### API Endpoints
