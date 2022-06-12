@@ -1,10 +1,14 @@
 const { pool } = require("./db");
 
+/**
+ * Drops employees and departments table
+ * and any triggers and functions which exist on the relation.
+ */
 async function dropAll() {
     try {
         await pool.query('DROP TRIGGER IF EXISTS emp_count ON employees');
         await pool.query('DROP FUNCTION IF EXISTS update_emp_count()');
-        await pool.query('DROP FUNCTION IF EXISTS get_employee_data(dpid integer, joindate date)');
+        await pool.query('DROP FUNCTION IF EXISTS get_employee_data(dpid integer[], joindate date)');
         await pool.query('DROP TABLE IF EXISTS employees');
         await pool.query('DROP TABLE IF EXISTS departments');
         console.log("Cleared the database.")
@@ -13,6 +17,9 @@ async function dropAll() {
     }
 }
 
+/**
+ * Creates a `departments` table.
+ */
 async function createDepartmentTable() {
     try {
         let query = `
@@ -30,7 +37,10 @@ async function createDepartmentTable() {
     }
 }
 
-async function createEmployeeTable () {
+/**
+ * Creates a `employees` table
+ */
+async function createEmployeeTable() {
     try {
         let query = `
             CREATE TABLE employees (
@@ -50,6 +60,10 @@ async function createEmployeeTable () {
     }
 }
 
+/**
+ * Creates a function which increases the employee count
+ * of the department in which the employee is added.
+ */
 async function employeeCountFunction () {
     try {
         let query = `
@@ -68,6 +82,10 @@ async function employeeCountFunction () {
     }
 }
 
+/**
+ * Creates a trigger which calls the employee count
+ * function whenever an employee is added
+ */
 async function employeeCountTriggeer() {
     try {
         let query = `
@@ -82,10 +100,14 @@ async function employeeCountTriggeer() {
     }
 }
 
+/**
+ * Creates a function which returns employee data
+ * at a department joined after a particular date.
+ */
 async function employeeDataFunction() {
     try {
         let query = `
-            CREATE OR REPLACE FUNCTION get_employee_data(dpid integer, joindate date) RETURNS table (document json) AS $$
+            CREATE OR REPLACE FUNCTION get_employee_data(dpid integer[], joindate date) RETURNS table (document json) AS $$
             SELECT jsonb_build_object(
                 'name', em.name,
                 'contact', em.contact,
@@ -93,7 +115,7 @@ async function employeeDataFunction() {
                 'join_date', em.join_date
             ) FROM employees AS em
             LEFT JOIN departments AS dept ON dept.id = em.dept_id
-            WHERE em.dept_id = dpid AND em.join_date >= joindate;
+            WHERE em.dept_id = ANY(dpid) AND em.join_date >= joindate;
             $$ LANGUAGE SQL;
         `
         const result = await pool.query(query)
@@ -104,6 +126,10 @@ async function employeeDataFunction() {
     }
 }
 
+/**
+ * Creates a function which sets the join date
+ * whenever an employee is added
+ */
 async function employeeJoinDateFunction() {
     try {
         let query = `
@@ -124,6 +150,9 @@ async function employeeJoinDateFunction() {
     }
 }
 
+/**
+ * Trigger which calls the join date function.
+ */
 async function employeeJoinDateTrigger() {
     try {
         let query = `
