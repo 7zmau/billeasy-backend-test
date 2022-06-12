@@ -1,10 +1,11 @@
 # Billeasy Backend Test API
 Test API to create and get employees & departments in a company
-### Add postgres credentials to .env file
-### Set the database credentials in
-`db.js`
+
+### Set up the database 
+Create **.env** file in your local Repository and set **DATABASE_URL** to your Postgresql database URI
 ### Initialize the database 
 `$ npm run initdb`
+This will clear existing tables.
 ### Run
 `$ node index.js`<br>
 
