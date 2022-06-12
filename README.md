@@ -7,8 +7,8 @@ Test API to create and get employees & departments in a company
 `$ npm run initdb`
 ### Run
 `$ node index.js`<br>
-Open browser at http://localhost:{PORT}/
 
+Open browser at http://localhost:{PORT}/
 Configure PORT in `index.js`
 
 #### API Endpoints
