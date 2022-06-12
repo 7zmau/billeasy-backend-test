@@ -4,9 +4,9 @@ Test API to create and get employees & departments in a company
 ### Set the database credentials in
 `db.js`
 ### Initialize the database 
-`node init_db.js`
+`$ npm run initdb`
 ### Run
-`node index.js`<br>
+`$ node index.js`<br>
 Open browser at http://localhost:{PORT}/
 
 Configure PORT in `index.js`
