@@ -8,6 +8,7 @@ async function dropAll() {
     try {
         await pool.query('DROP TRIGGER IF EXISTS emp_count ON employees');
         await pool.query('DROP FUNCTION IF EXISTS update_emp_count()');
+        await pool.query('DROP FUNCTION IF EXISTS get_employee_data(dpid integer, joindate date)');
         await pool.query('DROP FUNCTION IF EXISTS get_employee_data(dpid integer[], joindate date)');
         await pool.query('DROP TABLE IF EXISTS employees');
         await pool.query('DROP TABLE IF EXISTS departments');
