@@ -48,6 +48,9 @@ app.post('/employees', async (req, resp) => {
         let empName = req.body.emp_name
         let empContact = req.body.emp_contact
         let deptId = req.body.dept_id
+        if (!empName || !empContact || !deptId) {
+            throw 'Invalid request parameters'
+        }
         const data = await db.addEmployee(empName, empContact, deptId)
         if (data.error) {
             throw data.message
